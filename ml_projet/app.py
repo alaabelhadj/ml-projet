@@ -101,16 +101,20 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
+# Chemin absolu basé sur le fichier app.py
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODELS_DIR = os.path.join(BASE_DIR, 'models')
+
 # Chargement du modèle et du scaler
 @st.cache_resource
 def load_model():
-    model = joblib.load('models/rain_prediction_model.pkl')
-    scaler = joblib.load('models/scaler.pkl')
-    feature_names = joblib.load('models/feature_names.pkl')
+    model = joblib.load(os.path.join(MODELS_DIR, 'rain_prediction_model.pkl'))
+    scaler = joblib.load(os.path.join(MODELS_DIR, 'scaler.pkl'))
+    feature_names = joblib.load(os.path.join(MODELS_DIR, 'feature_names.pkl'))
     return model, scaler, feature_names
 
 # Vérifier si les fichiers existent
-if not os.path.exists('models/rain_prediction_model.pkl'):
+if not os.path.exists(os.path.join(MODELS_DIR, 'rain_prediction_model.pkl')):
     st.error("⚠️ Le modèle n'a pas été trouvé. Veuillez d'abord exécuter le notebook pour entraîner et sauvegarder le modèle.")
     st.stop()
 
